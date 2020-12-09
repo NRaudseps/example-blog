@@ -15,8 +15,10 @@ class ArticlesController extends Controller
 
     public function index()
     {
+        $articles  = Article::all()->sortByDesc('created_at');
+
         return view('articles.index', [
-            'articles' => (new Article)->all()
+            'articles' => $articles
         ]);
     }
 
@@ -27,9 +29,7 @@ class ArticlesController extends Controller
 
     public function store(ArticleRequest $request)
     {
-        $article = (new Article)->fill($request->all());
-        $article->user()->associate(auth()->user());
-        $article->save();
+        $article = auth()->user()->articles()->create($request->all());
 
         event(new ArticleWasCreated($article));
 
