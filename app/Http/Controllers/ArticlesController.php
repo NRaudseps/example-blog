@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ArticleWasCreated;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use Illuminate\Support\Facades\Http;
 
 class ArticlesController extends Controller
 {
@@ -15,8 +16,19 @@ class ArticlesController extends Controller
 
     public function index()
     {
+        $response = Http::get('https://quotes.rest/qod?language=en');
+        if(isset($response->body()->contents)){
+            $quote = json_decode($response->body())->contents->quotes[0]->quote;
+            $author = json_decode($response->body())->contents->quotes[0]->author;
+        } else {
+            $quote = null;
+            $author = null;
+        }
+
         return view('articles.index', [
-            'articles' => (new Article)->all()
+            'articles' => (new Article)->all(),
+            'quote' => $quote,
+            'author' => $author
         ]);
     }
 
