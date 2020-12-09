@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,4 +21,9 @@ Route::get('articles/{article}', 'ArticlesController@show')->name('articles.show
 Route::post('/articles/lazy', 'ArticlesController@lazy')
     ->middleware(['auth']);
 
-Route::get('/products/{product}','ProductsController@show');
+Route::get('/products/{product}', 'ProductsController@show');
+
+Route::get('/user/{user}/edit', 'UserController@edit');
+
+Route::resource('user', 'UserController')
+    ->middleware(['auth']);
