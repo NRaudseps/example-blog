@@ -63,4 +63,13 @@ class ArticlesController extends Controller
 
         return redirect()->route('articles.index');
     }
+
+    public function lazy()
+    {
+        for($i = 0; $i < 100; $i++){
+            Article::factory()->create(['user_id' => auth()->user()->id]);
+        }
+
+        return redirect()->route('articles.index');
+    }
 }

@@ -1,9 +1,16 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <a href="{{ route('articles.create') }}" class="btn btn-primary btn-sm">
-            Create new article
-        </a>
+        <div style="display: flex">
+            <a href="{{ route('articles.create') }}" class="btn btn-primary btn-sm">
+                Create new article
+            </a>
+            <form action="/articles/lazy" method="post">
+                @csrf
+
+                <button type="submit" class="btn btn-primary btn-sm" style="margin-left: 20px;">The Lazy Button</button>
+            </form>
+        </div>
         <table class="table">
             <thead>
                 <tr>
